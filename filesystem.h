@@ -41,12 +41,13 @@ public:
     // removeFolder(...);
 
     /* Function will move the current location to a specified location in the filesystem */
-    // goToFolder(...);
+	int changeFolder(std::string filePath);
 
     /* This function will get all the files and folders in the specified folder */
     // listDir(...);
 
     /* Add your own member-functions if needed */
+
 };
 
 #endif // FILESYSTEM_H

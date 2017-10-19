@@ -17,10 +17,10 @@ bool quit();
 std::string help();
 
 /* More functions ... */
+std::string getFilePath(std::string userCommand, int pathStartIndex);
+void changeFolder(FileSystem& fS, std::string userCommand);
 
 int main(void) {
-
-	//Test
 
 	//Check for memory leaks
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
@@ -28,7 +28,7 @@ int main(void) {
 	FileSystem fS;
 
 	std::string userCommand, commandArr[MAXCOMMANDS];
-	std::string user = "user@DV1492";    // Change this if you want another user to be displayed
+	std::string user = "user@Hokage";    // Change this if you want another user to be displayed
 	std::string currentDir = "/";    // current directory, used for output
 
     bool bRun = true;
@@ -71,7 +71,8 @@ int main(void) {
             case 11: // mkdir
                 break;
             case 12: // cd
-                break;
+				changeFolder(fS, userCommand);
+				break;
             case 13: // pwd
                 break;
             case 14: // help
@@ -136,3 +137,41 @@ std::string help() {
 }
 
 /* Insert code for your shell functions and call them from the switch-case */
+std::string getFilePath(std::string userCommand, int pathStartIndex) {
+
+	std::string filePath = "";
+
+	for (int i = pathStartIndex; i < userCommand.length(); i++) {
+
+		filePath += userCommand.at(i);
+
+	}
+
+	return filePath;
+
+}
+
+void changeFolder(FileSystem& fS, std::string userCommand) {
+
+	std::string filePath = getFilePath(userCommand, 3);
+	int result = fS.changeFolder(filePath);
+
+	switch (result) {
+
+	case 1:
+		std::cout << "There is no root directory!\n";
+		break;
+	case 2:
+		std::cout << "You are in the root directory!\n";
+		break;
+
+	case 3:
+		std::cout << "There is no directory with the name " << filePath << " in the current directory!\n";
+		break;
+
+	default:
+		break;
+
+	}
+
+}

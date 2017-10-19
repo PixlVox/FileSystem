@@ -26,5 +26,11 @@ void FileSystem::resetMemBlock(){
 
 }
 
+int FileSystem::changeFolder(std::string filePath) {
+
+	return this->tree.changeDir(filePath);
+
+}
+
 
 /* Please insert your code */

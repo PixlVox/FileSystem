@@ -13,24 +13,29 @@ private:
 
 		int blockId;
 		Node* previousDir;
-		Node* nextDir;
+		int* sub;
+		int nrOfSubs;
 
 	public:
 
-		Node(int blockId, Node* previousDir, Node* nextDir) {
+		Node(int blockId, Node* previousDir) {
 
 			this->blockId = blockId;
 			this->previousDir = previousDir;
-			this->nextDir = nextDir;
+			this->nrOfSubs = 0;
+			this->sub = nullptr;
 
 		}
 
 		~Node() {
 
+			//Alla noder raderas i TreeStructure Destruktorn
+
 		}
 
 	};
 
+	
 private:
 
 	Node* currentDir;
@@ -40,7 +45,7 @@ public:
 	TreeStructure();
 	~TreeStructure();
 
-	void changeDir(std::string dirName);
+	int changeDir(std::string dirName);
 
 };
 
