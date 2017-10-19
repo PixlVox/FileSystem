@@ -10,11 +10,15 @@ private:
 	int blockID;
 	std::string name;
 	std::string type;
+	std::string content;
 
 public:
 
 	File();
 	~File();
+	std::string getName();
+	std::string getType();
+	std::string getContent();
 
 };
 
