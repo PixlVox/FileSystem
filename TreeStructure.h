@@ -49,7 +49,6 @@ public:
 	int goToNextDir(int index, int nrOfSubs, int* subs);
 	const int* getCurrentSubs() const;
 	int getNrOfCurrentSubs() const;
-
 };
 
 #endif // !TREESTRUCTURE_H

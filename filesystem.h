@@ -17,9 +17,22 @@ private:
 	int emptyIndex[NROFBLOCKS];  // 0 = Used, 1 = Empty
 	int isFolder[NROFBLOCKS];	//0 = File, 1 = Folder
 
+<<<<<<< HEAD
 	//Private functions
 	int* getSubs(int blockId);
 	int getNrOfSubs(int blockId);
+=======
+	int searchForFilePath(std::string filePath, bool isFolder);
+	int searchForBlockId(std::string filePath) const;
+	int getTypeFromBlockId(int BlockId) const;
+
+	
+	int create(std::string name, bool isFolder);
+	/* Removes a file in the filesystem */
+	int removeFile(int blockId);
+    /* Removes a folder in the filesystem */
+	int removeFolder(int blockId);
+>>>>>>> 152fc83e8fea2d413932db73341b59729f23480c
 
 public:
 
@@ -27,23 +40,21 @@ public:
     ~FileSystem();
 
     void resetMemBlock();
-	int searchForFilePath(std::string filePath, bool isFolder);
+	
+	
+	int remove(std::string filePath);
 
     /* These API functions need to be implemented
 	   You are free to specify parameter lists and return values
     */
 
     /* This function creates a file in the filesystem */
-    // createFile(...)
+	int createFile(std::string fileName);
 
     /* Creates a folder in the filesystem */
-    // createFolderi(...);
+	int createFolder(std::string folderName);
 
-    /* Removes a file in the filesystem */
-    // removeFile(...);
-
-    /* Removes a folder in the filesystem */
-    // removeFolder(...);
+   
 
     /* Function will move the current location to a specified location in the filesystem */
 	int changeDir(std::string filePath);

@@ -81,6 +81,7 @@ int TreeStructure::goToNextDir(int index, int nrOfSubs, int* subs) {
 
 }
 
+
 const int* TreeStructure::getCurrentSubs() const {
 
 	return this->currentDir->subs;

@@ -151,6 +151,11 @@ std::string getFilePath(std::string userCommand, int pathStartIndex) {
 
 }
 
+void remove(FileSystem& fS, std::string userCommand) {
+	std::string filePath = getFilePath(userCommand, 3);
+
+}
+
 void changeFolder(FileSystem& fS, std::string userCommand) {
 
 	std::string filePath = getFilePath(userCommand, 3);
@@ -175,3 +180,4 @@ void changeFolder(FileSystem& fS, std::string userCommand) {
 	}
 
 }
+
