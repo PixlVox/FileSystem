@@ -48,7 +48,7 @@ public:
 	int goToPreviousDir();
 	int goToNextDir();
 	int changeDir(std::string dirName);
-	int* getCurrentSubs();
+	const int* getCurrentSubs() const;
 	int getNrOfCurrentSubs();
 };
 
