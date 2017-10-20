@@ -26,7 +26,7 @@ void FileSystem::resetMemBlock(){
 
 }
 
-int FileSystem::searchForFilePath(std::string filePath, bool folder) {
+int FileSystem::searchForFilePath(std::string filePath, bool isFolder) {
 
 	int index = -1;
 	int stringCheck = 0;
@@ -38,7 +38,7 @@ int FileSystem::searchForFilePath(std::string filePath, bool folder) {
 	for (int i = 0; i < this->tree.getNrOfCurrentSubs() && !found; i++) {
 
 		//Check if it is a folder
-		if (isFolder[subs[i]] == 1 && folder) {
+		if (this->isFolder[subs[i]] == 1 && isFolder) {
 
 			//Read the content from block
 			temp = this->mBD.readBlock(subs[i]).toString();
@@ -80,6 +80,36 @@ int FileSystem::searchForFilePath(std::string filePath, bool folder) {
 	//Returns the index of the folder in MemBlockDevice, if -1 it was not found
 	return index;
 
+}
+
+int FileSystem::remove(std::string filePath, bool isFolder)
+{
+	int removed = 0; // 0 = failed, 1 = succsess
+	int blockId = searchForFilePath(filePath, isFolder);
+
+	//if file or folder is found, set its block to empty.
+	if (blockId != -1) {
+		emptyIndex[blockId] = 1;
+		removed = 1;
+	}
+
+	return removed;
+}
+
+int FileSystem::removeFile(std::string filePath)
+{
+	int removed = 0; // 0 = failed, 1 = succsess
+	removed = remove(filePath, false);
+
+	return removed;
+}
+
+int FileSystem::removeFolder(std::string filePath)
+{
+	int removed = 0; // 0 = failed, 1 = succsess
+	removed = remove(filePath, true);
+
+	return removed;
 }
 
 int FileSystem::changeDir(std::string filePath) {

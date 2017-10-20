@@ -17,6 +17,8 @@ private:
 	int emptyIndex[NROFBLOCKS];  // 0 = Used, 1 = Empty
 	int isFolder[NROFBLOCKS];	//0 = File, 1 = Folder
 
+	int remove(std::string filePath, bool isFolder);
+
 public:
 
     FileSystem();
@@ -36,10 +38,10 @@ public:
     // createFolderi(...);
 
     /* Removes a file in the filesystem */
-    // removeFile(...);
+	int removeFile(std::string filePath);
 
     /* Removes a folder in the filesystem */
-    // removeFolder(...);
+	int removeFolder(std::string filePath);
 
     /* Function will move the current location to a specified location in the filesystem */
 	int changeDir(std::string filePath);
