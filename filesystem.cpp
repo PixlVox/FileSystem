@@ -32,7 +32,7 @@ int FileSystem::searchForFilePath(std::string filePath) {
 	int stringCheck = 0;
 	std::string temp = "";
 	std::string tempPath = "";
-	int* subs = this->tree.getCurrentSubs();
+	const int* subs = this->tree.getCurrentSubs();
 	bool found = false;
 
 	for (int i = 0; i < this->tree.getNrOfCurrentSubs() && !found; i++) {

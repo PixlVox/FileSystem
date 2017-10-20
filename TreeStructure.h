@@ -48,8 +48,13 @@ public:
 	int goToPreviousDir();
 	int goToNextDir(int index);
 	int changeDir(std::string dirName);
+<<<<<<< HEAD
 	int* getCurrentSubs() const;
 	int getNrOfCurrentSubs() const;
+=======
+	const int* getCurrentSubs() const;
+	int getNrOfCurrentSubs();
+>>>>>>> f801c485f4d285bf3acae1d99ff547f3646edef9
 };
 
 #endif // !TREESTRUCTURE_H
