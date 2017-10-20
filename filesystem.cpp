@@ -86,10 +86,6 @@ int FileSystem::searchForFilePath(std::string filePath, bool isFolder) {
 
 }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> a3db7faf95dac6817ffd9abe336219e5b8212c97
 int FileSystem::getNrOfSubs(int blockId) {
 
 	int nrOfSubs = -1;
@@ -167,11 +163,6 @@ int* FileSystem::getSubs(int blockId) {
 	return subs;
 }
 
-<<<<<<< HEAD
-}
-
-=======
->>>>>>> a3db7faf95dac6817ffd9abe336219e5b8212c97
 int FileSystem::searchForBlockId(std::string filePath) const
 {
 	int index = -1;

@@ -17,10 +17,6 @@ private:
 	int emptyIndex[NROFBLOCKS];  // 0 = Used, 1 = Empty
 	int isFolder[NROFBLOCKS];	//0 = File, 1 = Folder
 
-<<<<<<< HEAD
-=======
-
->>>>>>> a3db7faf95dac6817ffd9abe336219e5b8212c97
 	//Private functions
 	int* getSubs(int blockId);
 	int getNrOfSubs(int blockId);
@@ -34,10 +30,6 @@ private:
 	int removeFile(int blockId);
     /* Removes a folder in the filesystem */
 	int removeFolder(int blockId);
-<<<<<<< HEAD
-=======
-
->>>>>>> a3db7faf95dac6817ffd9abe336219e5b8212c97
 
 public:
 
