@@ -86,7 +86,7 @@ int FileSystem::searchForFilePath(std::string filePath, bool isFolder) {
 
 }
 
-<<<<<<< HEAD
+
 int FileSystem::getNrOfSubs(int blockId) {
 
 	int nrOfSubs = -1;
@@ -120,7 +120,7 @@ int* FileSystem::getSubs(int blockId) {
 
 	int* subs = nullptr;
 	int subsCounter = 0;
-	
+
 	//Checks the amount of subs
 	int nrOfSubs = this->getNrOfSubs(blockId);
 
@@ -162,8 +162,8 @@ int* FileSystem::getSubs(int blockId) {
 	}
 
 	return subs;
+}
 
-=======
 int FileSystem::searchForBlockId(std::string filePath) const
 {
 	int index = -1;
@@ -280,7 +280,7 @@ int FileSystem::removeFolder(int blockId)
 	}
 
 	return removed;
->>>>>>> 152fc83e8fea2d413932db73341b59729f23480c
+
 }
 
 int FileSystem::changeDir(std::string filePath) {
