@@ -26,7 +26,7 @@ void FileSystem::resetMemBlock(){
 
 }
 
-int FileSystem::searchForFilePath(std::string filePath) {
+int FileSystem::searchForFilePath(std::string filePath, bool folder) {
 
 	int index = -1;
 	int stringCheck = 0;
@@ -38,7 +38,7 @@ int FileSystem::searchForFilePath(std::string filePath) {
 	for (int i = 0; i < this->tree.getNrOfCurrentSubs() && !found; i++) {
 
 		//Check if it is a folder
-		if (isFolder[subs[i]] == 1) {
+		if (isFolder[subs[i]] == 1 && folder) {
 
 			//Read the content from block
 			temp = this->mBD.readBlock(subs[i]).toString();
