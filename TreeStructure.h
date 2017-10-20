@@ -46,7 +46,7 @@ public:
 	~TreeStructure();
 
 	int goToPreviousDir();
-	int goToNextDir(int index, int nrOfSubs, int* subs);
+	void goToNextDir(int index, int nrOfSubs, int* subs);
 	const int* getCurrentSubs() const;
 	int getNrOfCurrentSubs() const;
 };

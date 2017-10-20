@@ -71,7 +71,7 @@ int TreeStructure::goToPreviousDir() {
 
 }
 
-int TreeStructure::goToNextDir(int index, int nrOfSubs, int* subs) {
+void TreeStructure::goToNextDir(int index, int nrOfSubs, int* subs) {
 
 	Node* nextDir = new Node(index, this->currentDir);
 	nextDir->nrOfSubs = nrOfSubs;

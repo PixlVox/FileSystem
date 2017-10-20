@@ -41,14 +41,14 @@ int FileSystem::searchForFilePath(std::string filePath, bool isFolder) {
 		temp = this->mBD.readBlock(subs[i]).toString();
 
 		//Handle the content from block to separate the name to compare with filePath
-		for (int i = 0; i < temp.length && stringCheck < 2; i++) {
+		for (int i = 0; i < temp.length() && stringCheck < 2; i++) {
 
-			if (stringCheck == 1 && temp.at[i] != '|') {
+			if (stringCheck == 1 && temp.at(i) != '|') {
 
-				tempPath += temp.at[i];
+				tempPath += temp.at(i);
 
 			}
-			else if (temp.at[i] == '|') {
+			else if (temp.at(i) == '|') {
 
 				stringCheck++;
 
@@ -86,7 +86,6 @@ int FileSystem::searchForFilePath(std::string filePath, bool isFolder) {
 
 }
 
-<<<<<<< HEAD
 int FileSystem::getNrOfSubs(int blockId) {
 
 	int nrOfSubs = -1;
@@ -120,7 +119,7 @@ int* FileSystem::getSubs(int blockId) {
 
 	int* subs = nullptr;
 	int subsCounter = 0;
-	
+
 	//Checks the amount of subs
 	int nrOfSubs = this->getNrOfSubs(blockId);
 
@@ -163,7 +162,8 @@ int* FileSystem::getSubs(int blockId) {
 
 	return subs;
 
-=======
+}
+
 int FileSystem::searchForBlockId(std::string filePath) const
 {
 	int index = -1;
@@ -179,14 +179,14 @@ int FileSystem::searchForBlockId(std::string filePath) const
 		temp = this->mBD.readBlock(subs[i]).toString();
 
 		//Handle the content from block to separate the name to compare with filePath
-		for (int i = 0; i < temp.length && stringCheck < 2; i++) {
+		for (int i = 0; i < temp.length() && stringCheck < 2; i++) {
 
-			if (stringCheck == 1 && temp.at[i] != '|') {
+			if (stringCheck == 1 && temp.at(i) != '|') {
 
-				tempPath += temp.at[i];
+				tempPath += temp.at(i);
 
 			}
-			else if (temp.at[i] == '|') {
+			else if (temp.at(i) == '|') {
 
 				stringCheck++;
 
@@ -280,7 +280,7 @@ int FileSystem::removeFolder(int blockId)
 	}
 
 	return removed;
->>>>>>> 152fc83e8fea2d413932db73341b59729f23480c
+
 }
 
 int FileSystem::changeDir(std::string filePath) {
@@ -299,6 +299,7 @@ int FileSystem::changeDir(std::string filePath) {
 		if (result != -1) {
 
 			this->tree.goToNextDir(result, this->getNrOfSubs(result), this->getSubs(result));
+			result = -1;
 
 		}
 		else {
