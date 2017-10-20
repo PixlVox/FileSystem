@@ -13,12 +13,25 @@ TreeStructure::~TreeStructure() {
 
 	while (this->currentDir != nullptr && this->currentDir->previousDir != nullptr) {
 
+		//Create temp for previous folder
 		temp = this->currentDir->previousDir;
+
+		//Delete subs for current
+		if (this->currentDir->subs != nullptr) {
+
+			delete[] this->currentDir->subs;
+
+		}
+
+		//Delete current
 		delete this->currentDir;
+
+		//Set current to temp
 		this->currentDir = temp;
 		
 	}
 
+	//Deletes the root node
 	delete this->currentDir;
 
 }
@@ -41,7 +54,14 @@ int TreeStructure::goToPreviousDir() {
 		}
 		else {
 
-			this->currentDir = this->currentDir->previousDir;
+			//Saves the previous dir in a temp pointer
+			Node* temp = this->currentDir->previousDir;
+			
+			//Deletes current node
+			delete this->currentDir;
+
+			//Sets current to the temp pointer
+			this->currentDir = temp;
 
 		}
 
@@ -51,54 +71,13 @@ int TreeStructure::goToPreviousDir() {
 
 }
 
-int TreeStructure::goToNextDir(int index) {
+int TreeStructure::goToNextDir(int index, int nrOfSubs, int* subs) {
 
+	Node* nextDir = new Node(index, this->currentDir);
+	nextDir->nrOfSubs = nrOfSubs;
+	nextDir->subs = subs;
 
-
-}
-
-int TreeStructure::changeDir(std::string dirName) {
-
-	int error = 0;
-
-	if (this->currentDir == nullptr) {
-
-		error = 1;
-
-	}
-	else if (dirName == "..") {
-
-		if (this->currentDir->previousDir == nullptr) {
-
-			error = 2;
-
-		}
-		else {
-
-			this->currentDir = this->currentDir->previousDir;
-
-		}
-
-	}
-	else {
-
-		bool stop = false;
-
-		for (int i = 0; i < this->currentDir->nrOfSubs && !stop; i++) {
-
-			//Hantera data som hämtats från MemBlockDevice
-
-		}
-
-		if (!stop) {
-
-			error = 3;
-
-		}
-
-	}
-
-	return error;
+	this->currentDir = nextDir;
 
 }
 

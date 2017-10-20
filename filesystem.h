@@ -17,6 +17,11 @@ private:
 	int emptyIndex[NROFBLOCKS];  // 0 = Used, 1 = Empty
 	int isFolder[NROFBLOCKS];	//0 = File, 1 = Folder
 
+<<<<<<< HEAD
+	//Private functions
+	int* getSubs(int blockId);
+	int getNrOfSubs(int blockId);
+=======
 	int searchForFilePath(std::string filePath, bool isFolder);
 	int searchForBlockId(std::string filePath) const;
 	int getTypeFromBlockId(int BlockId) const;
@@ -27,6 +32,7 @@ private:
 	int removeFile(int blockId);
     /* Removes a folder in the filesystem */
 	int removeFolder(int blockId);
+>>>>>>> 152fc83e8fea2d413932db73341b59729f23480c
 
 public:
 
