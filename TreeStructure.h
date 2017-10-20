@@ -50,6 +50,10 @@ public:
 	int changeDir(std::string dirName);
 	const int* getCurrentSubs() const;
 	int getNrOfCurrentSubs() const;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 73227b10c33f4f5f670c8a7669388f0130693e88
 };
 
 #endif // !TREESTRUCTURE_H

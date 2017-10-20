@@ -23,7 +23,7 @@ public:
     ~FileSystem();
 
     void resetMemBlock();
-	int searchForFilePath(std::string filePath);
+	int searchForFilePath(std::string filePath, bool folder);
 
     /* These API functions need to be implemented
 	   You are free to specify parameter lists and return values

@@ -102,9 +102,13 @@ int TreeStructure::changeDir(std::string dirName) {
 
 }
 
+<<<<<<< HEAD
 
 const int* TreeStructure::getCurrentSubs() const {
 
+=======
+const int* TreeStructure::getCurrentSubs() const {
+>>>>>>> 73227b10c33f4f5f670c8a7669388f0130693e88
 
 	return this->currentDir->subs;
 
