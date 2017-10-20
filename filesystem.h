@@ -17,6 +17,10 @@ private:
 	int emptyIndex[NROFBLOCKS];  // 0 = Used, 1 = Empty
 	int isFolder[NROFBLOCKS];	//0 = File, 1 = Folder
 
+	//Private functions
+	int* getSubs(int blockId);
+	int getNrOfSubs(int blockId);
+
 public:
 
     FileSystem();

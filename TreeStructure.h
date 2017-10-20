@@ -5,7 +5,7 @@
 
 class TreeStructure {
 
-private:
+protected:
 
 	class Node {
 
@@ -46,8 +46,7 @@ public:
 	~TreeStructure();
 
 	int goToPreviousDir();
-	int goToNextDir(int index);
-	int changeDir(std::string dirName);
+	int goToNextDir(int index, int nrOfSubs, int* subs);
 	const int* getCurrentSubs() const;
 	int getNrOfCurrentSubs() const;
 
