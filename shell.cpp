@@ -154,6 +154,12 @@ std::string getFilePath(std::string userCommand, int pathStartIndex) {
 void remove(FileSystem& fS, std::string userCommand) {
 	std::string filePath = getFilePath(userCommand, 3);
 
+	int removed = fS.remove(filePath);
+
+	if (removed = 0) {
+		std::cout << "There is no file or directory with that name\n.";
+	}
+
 }
 
 void changeFolder(FileSystem& fS, std::string userCommand) {
