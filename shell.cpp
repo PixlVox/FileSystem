@@ -154,7 +154,7 @@ std::string getFilePath(std::string userCommand, int pathStartIndex) {
 void changeFolder(FileSystem& fS, std::string userCommand) {
 
 	std::string filePath = getFilePath(userCommand, 3);
-	int result = fS.changeFolder(filePath);
+	int result = fS.changeDir(filePath);
 
 	switch (result) {
 

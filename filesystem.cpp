@@ -82,7 +82,7 @@ int FileSystem::searchForFilePath(std::string filePath) {
 
 }
 
-int FileSystem::changeFolder(std::string filePath) {
+int FileSystem::changeDir(std::string filePath) {
 
 	int result = -1;
 
@@ -97,7 +97,7 @@ int FileSystem::changeFolder(std::string filePath) {
 
 		if (result != -1) {
 
-
+			this->tree.goToNextDir(result);
 
 		}
 

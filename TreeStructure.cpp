@@ -51,7 +51,7 @@ int TreeStructure::goToPreviousDir() {
 
 }
 
-int TreeStructure::goToNextDir() {
+int TreeStructure::goToNextDir(int index) {
 
 
 
@@ -102,13 +102,13 @@ int TreeStructure::changeDir(std::string dirName) {
 
 }
 
-int* TreeStructure::getCurrentSubs() {
+int* TreeStructure::getCurrentSubs() const{
 
 	return this->currentDir->subs;
 
 }
 
-int TreeStructure::getNrOfCurrentSubs() {
+int TreeStructure::getNrOfCurrentSubs() const{
 
 	return this->currentDir->nrOfSubs;
 

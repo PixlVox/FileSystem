@@ -42,7 +42,7 @@ public:
     // removeFolder(...);
 
     /* Function will move the current location to a specified location in the filesystem */
-	int changeFolder(std::string filePath);
+	int changeDir(std::string filePath);
 
     /* This function will get all the files and folders in the specified folder */
     // listDir(...);

@@ -46,10 +46,10 @@ public:
 	~TreeStructure();
 
 	int goToPreviousDir();
-	int goToNextDir();
+	int goToNextDir(int index);
 	int changeDir(std::string dirName);
-	int* getCurrentSubs();
-	int getNrOfCurrentSubs();
+	int* getCurrentSubs() const;
+	int getNrOfCurrentSubs() const;
 };
 
 #endif // !TREESTRUCTURE_H
