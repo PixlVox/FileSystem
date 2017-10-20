@@ -13,7 +13,7 @@ private:
 
 		int blockId;
 		Node* previousDir;
-		int* sub;
+		int* subs;
 		int nrOfSubs;
 
 	public:
@@ -23,7 +23,7 @@ private:
 			this->blockId = blockId;
 			this->previousDir = previousDir;
 			this->nrOfSubs = 0;
-			this->sub = nullptr;
+			this->subs = nullptr;
 
 		}
 
@@ -45,8 +45,11 @@ public:
 	TreeStructure();
 	~TreeStructure();
 
+	int goToPreviousDir();
+	int goToNextDir();
 	int changeDir(std::string dirName);
-
+	int* getCurrentSubs();
+	int getNrOfCurrentSubs();
 };
 
 #endif // !TREESTRUCTURE_H

@@ -23,6 +23,40 @@ TreeStructure::~TreeStructure() {
 
 }
 
+int TreeStructure::goToPreviousDir() {
+
+	int error = -1;
+
+	if (this->currentDir == nullptr) {
+
+		error = 1;
+
+	}
+	else {
+
+		if (this->currentDir->previousDir == nullptr) {
+
+			error = 2;
+
+		}
+		else {
+
+			this->currentDir = this->currentDir->previousDir;
+
+		}
+
+	}
+
+	return error;
+
+}
+
+int TreeStructure::goToNextDir() {
+
+
+
+}
+
 int TreeStructure::changeDir(std::string dirName) {
 
 	int error = 0;
@@ -65,5 +99,17 @@ int TreeStructure::changeDir(std::string dirName) {
 	}
 
 	return error;
+
+}
+
+int* TreeStructure::getCurrentSubs() {
+
+	return this->currentDir->subs;
+
+}
+
+int TreeStructure::getNrOfCurrentSubs() {
+
+	return this->currentDir->nrOfSubs;
 
 }

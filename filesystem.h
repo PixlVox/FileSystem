@@ -11,11 +11,11 @@ class FileSystem
 
 private:
     
-	MemBlockDevice mBD;
+	MemBlockDevice mBD;	//Blocks are saved containing: Type|Name|Content(ex if DIR: 5,3,6)
 	TreeStructure tree;
 
-	int emptyIndex[NROFBLOCKS];
-	int isFolder[NROFBLOCKS];
+	int emptyIndex[NROFBLOCKS];  // 0 = Used, 1 = Empty
+	int isFolder[NROFBLOCKS];	//0 = File, 1 = Folder
 
 public:
 
@@ -23,6 +23,7 @@ public:
     ~FileSystem();
 
     void resetMemBlock();
+	int searchForFilePath(std::string filePath);
 
     /* These API functions need to be implemented
 	   You are free to specify parameter lists and return values
