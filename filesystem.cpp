@@ -26,7 +26,7 @@ void FileSystem::resetMemBlock(){
 
 }
 
-int FileSystem::searchForFilePath(std::string filePath, bool folder) {
+int FileSystem::searchForFilePath(std::string filePath, bool isFolder) {
 
 	int index = -1;
 	int stringCheck = 0;
@@ -37,43 +37,47 @@ int FileSystem::searchForFilePath(std::string filePath, bool folder) {
 
 	for (int i = 0; i < this->tree.getNrOfCurrentSubs() && !found; i++) {
 
-		//Check if it is a folder
-		if (isFolder[subs[i]] == 1 && folder) {
+		//Read the content from block
+		temp = this->mBD.readBlock(subs[i]).toString();
 
-			//Read the content from block
-			temp = this->mBD.readBlock(subs[i]).toString();
+		//Handle the content from block to separate the name to compare with filePath
+		for (int i = 0; i < temp.length && stringCheck < 2; i++) {
 
-			//Handle the content from block to separate the name to compare with filePath
-			for (int i = 0; i < temp.length && stringCheck < 2; i++) {
+			if (stringCheck == 1 && temp.at[i] != '|') {
 
-				if (stringCheck == 1 && temp.at[i] != '|') {
+				tempPath += temp.at[i];
 
-					tempPath += temp.at[i];
+			}
+			else if (temp.at[i] == '|') {
 
-				}
-				else if (temp.at[i] == '|') {
-
-					stringCheck++;
-
-				}
+				stringCheck++;
 
 			}
 
-			if (tempPath == filePath) {
+		}
+
+		if (tempPath == filePath) {
+
+			if(this->isFolder[subs[i]] == 1 && isFolder){
+			
+				index = subs[i];
+				found = true;
+
+			}
+			else if (this->isFolder[subs[i]] == 0 && !isFolder) {
 
 				index = subs[i];
 				found = true;
 
 			}
 
-			//Reset variables
-			temp = "";
-			stringCheck = 0;
-			tempPath = "";
-			found = false;
-
 		}
-		
+
+		//Reset variables
+		temp = "";
+		stringCheck = 0;
+		tempPath = "";
+		found = false;
 
 	}
 
@@ -93,7 +97,7 @@ int FileSystem::changeDir(std::string filePath) {
 	}
 	else {
 
-		result = this->searchForFilePath(filePath);
+		result = this->searchForFilePath(filePath, true);
 
 		if (result != -1) {
 
