@@ -30,8 +30,14 @@ TreeStructure::~TreeStructure() {
 		this->currentDir = temp;
 		
 	}
-
+	
 	//Deletes the root node
+	if (this->currentDir->subs != nullptr) {
+
+		delete[] this->currentDir->subs;
+
+	}
+
 	delete this->currentDir;
 
 }
@@ -57,7 +63,8 @@ int TreeStructure::goToPreviousDir() {
 			//Saves the previous dir in a temp pointer
 			Node* temp = this->currentDir->previousDir;
 			
-			//Deletes current node
+			//Deletes current node and its pointers
+			delete[] this->currentDir->subs;
 			delete this->currentDir;
 
 			//Sets current to the temp pointer
@@ -84,7 +91,7 @@ void TreeStructure::goToNextDir(int index, int nrOfSubs, int* subs) {
 void TreeStructure::setNewSub(int blockId) {
 
 	//If there are no subs the array will be created with the new one
-	if (this->currentDir->subs = nullptr) {
+	if (this->currentDir->subs == nullptr) {
 
 		this->currentDir->nrOfSubs = 1;
 		this->currentDir->subs = new int[this->currentDir->nrOfSubs];
@@ -92,6 +99,8 @@ void TreeStructure::setNewSub(int blockId) {
 
 	}
 	else {	//If there are subs the array will be copied and resized with the new sub
+
+		std::cout << this->currentDir->subs[0];
 
 		int* tempSubs = new int[(this->currentDir->nrOfSubs + 1)];
 
@@ -102,11 +111,15 @@ void TreeStructure::setNewSub(int blockId) {
 		}
 
 
-		//Adding the new sub and asigning the new subs array
+		//Adding the new sub
 		tempSubs[this->currentDir->nrOfSubs] = blockId;
+
+		//Delete the old subs
+		delete[] this->currentDir->subs;
+
+		//Assign the new subs
 		this->currentDir->subs = tempSubs;
 		this->currentDir->nrOfSubs++;
-		//delete this->currentDir->subs;	Might be a memory leak
 
 	}
 

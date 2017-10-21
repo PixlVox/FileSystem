@@ -48,33 +48,40 @@ void FileSystem::writeToBlock(int blockId, std::string content) {
 
 }
 
-std::string FileSystem::listDir()
-{
-	int* subs = getSubs(tree.getCurrentBlockId());
-	std::string blockStrArr[SPLITARRSIZE];
-	std::string blockStr = "";
-	std::string helpStr;
-	helpStr += "Type      Name      Size\n";
-	
-	for (int i = 0; i < tree.getNrOfCurrentSubs(); i++) {
-		blockStr = mBD.readBlock(subs[i]).toString();
-		helpStr += splitBlockStr(blockStr, blockStrArr);
-	}
+std::string FileSystem::listDir(){
 
+	std::string helpStr = "";;
+	helpStr += "Type      Name      Size\n";
+
+	if (this->tree.getCurrentSubs() != nullptr) {
+
+		std::string blockStr = "";
+		
+		for (int i = 0; i < tree.getNrOfCurrentSubs(); i++) {
+
+			blockStr = mBD.readBlock(this->tree.getCurrentSubs()[i]).toString();
+			helpStr += splitBlockStr(blockStr);
+
+		}
+
+	}
 
 	return helpStr;
+
 }
 
-std::string FileSystem::splitBlockStr(std::string blockStr, std::string blockStrArr[])
+std::string FileSystem::splitBlockStr(std::string blockStr)
 {
-	std::string blockInfo;
-	std::string strings[SPLITARRSIZE];
-	std::istringstream f("Dir|Folder1|2|6,3|");
-	std::string s;
+	std::string blockInfo = "";
+	std::istringstream f(blockStr);
+	std::string s = "";;
 	for (int i = 0; i < SPLITARRSIZE; i++) {
+
 		getline(f, s, '|');
 		blockInfo += (s+"      ");
+
 	}
+
 	blockInfo += "\n";
 
 	return blockInfo;
@@ -121,13 +128,13 @@ int FileSystem::searchForFilePath(std::string filePath, bool isFolder) {
 				found = true;
 
 			}
-			else if (this->isFolder[subs[index]] == 0 && !isFolder) {
+			else if (this->isFolder[subs[i]] == 0 && !isFolder) {
 
-				index = subs[index];
+				index = subs[i];
 				found = true;
 
 			}
-
+			
 		}
 
 		//Reset variables
@@ -150,9 +157,9 @@ int FileSystem::getNrOfSubs(int blockId) {
 	std::string tempSeparated = "";
 	int checkString = 0;
 
-	for (int i = 0; i < temp.length() < 3; i++) {
+	for (int i = 0; i < temp.length() && checkString < 3; i++) {
 
-		if (checkString == 2) {
+		if (checkString == 2 && temp.at(i) != '|') {
 
 			tempSeparated += temp.at(i);
 
@@ -188,7 +195,7 @@ int* FileSystem::getSubs(int blockId) {
 		subs = new int[nrOfSubs];
 
 		int checkString = 0;
-		for (int i = 0; i < temp.length() < 4; i++) {
+		for (int i = 0; i < temp.length() && checkString < 4; i++) {
 
 			if (checkString == 3) {
 
@@ -258,7 +265,7 @@ int FileSystem::findExistingSub(std::string filePath, bool isFolder) {
 		temp = this->mBD.readBlock(subs[i]).toString();
 
 		//Finds start of filePath
-		for (int j = 0; j < temp.length() && !stopSearchInner; i++) {
+		for (int j = 0; j < temp.length() && !stopSearchInner; j++) {
 
 			if (temp.at(j) == '|') {
 
@@ -274,6 +281,7 @@ int FileSystem::findExistingSub(std::string filePath, bool isFolder) {
 		while (temp.at(tempIndex) != '|') {
 
 			path += temp.at(tempIndex);
+			tempIndex++;
 
 		}
 
@@ -383,7 +391,7 @@ int FileSystem::createFolder(std::string folderName){
 
 		//Search the current subs for a folder with the same name
 		error = this->findExistingSub(folderName, true);
-
+		
 		if (error = -1) {
 
 			//Create string with the releveant info
@@ -394,7 +402,7 @@ int FileSystem::createFolder(std::string folderName){
 
 			//Updates arrays
 			this->isFolder[blockId] = 1;
-			this->isFolder[blockId] = 0;
+			this->emptyIndex[blockId] = 0;
 
 			//Adds sub to current node in tree
 			this->tree.setNewSub(blockId);
@@ -539,7 +547,7 @@ int FileSystem::changeDir(std::string filePath) {
 	else {
 
 		result = this->searchForFilePath(filePath, true);
-
+		
 		if (result != -1) {
 
 			this->tree.goToNextDir(result, this->getNrOfSubs(result), this->getSubs(result));

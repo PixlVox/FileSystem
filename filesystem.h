@@ -4,7 +4,9 @@
 #include "memblockdevice.h"
 #include "TreeStructure.h"
 
+//Constants
 static int const NROFBLOCKS = 250;
+static const int SPLITARRSIZE = 3;
 
 class FileSystem
 {
@@ -17,18 +19,16 @@ private:
 	int emptyIndex[NROFBLOCKS];  // 0 = Used, 1 = Empty
 	int isFolder[NROFBLOCKS];	//0 = File, 1 = Folder
 
-	//Constants
-	static const int SPLITARRSIZE = 3;
-
-
 	//Private functions
 	int* getSubs(int blockId);
 	int getNrOfSubs(int blockId);
 	void writeToBlock(int blockId, std::string content);
 
 
+
 	std::string getFileContentFromBlock(std::string blockStr);
-	std::string splitBlockStr(std::string blockStr, std::string blockStrArr[]);
+	std::string splitBlockStr(std::string blockStr);
+
 
 	int findEmptyBlock();
 	int findExistingSub(std::string filePath, bool isFolder);
@@ -47,7 +47,7 @@ public:
 
     FileSystem();
     ~FileSystem();
-
+	
     void resetMemBlock();
 	int remove(std::string filePath);
 
