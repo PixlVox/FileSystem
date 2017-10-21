@@ -48,33 +48,40 @@ void FileSystem::writeToBlock(int blockId, std::string content) {
 
 }
 
-std::string FileSystem::listDir()
-{
-	int* subs = getSubs(tree.getCurrentBlockId());
-	std::string blockStrArr[SPLITARRSIZE];
-	std::string blockStr = "";
-	std::string helpStr;
-	helpStr += "Type      Name      Size\n";
-	
-	for (int i = 0; i < tree.getNrOfCurrentSubs(); i++) {
-		blockStr = mBD.readBlock(subs[i]).toString();
-		helpStr += splitBlockStr(blockStr, blockStrArr);
-	}
+std::string FileSystem::listDir(){
 
+	std::string helpStr = "";;
+	helpStr += "Type      Name      Size\n";
+
+	if (this->tree.getCurrentSubs() != nullptr) {
+
+		std::string blockStr = "";
+		
+		for (int i = 0; i < tree.getNrOfCurrentSubs(); i++) {
+
+			blockStr = mBD.readBlock(this->tree.getCurrentSubs()[i]).toString();
+			helpStr += splitBlockStr(blockStr);
+
+		}
+
+	}
 
 	return helpStr;
+
 }
 
-std::string FileSystem::splitBlockStr(std::string blockStr, std::string blockStrArr[])
+std::string FileSystem::splitBlockStr(std::string blockStr)
 {
-	std::string blockInfo;
-	std::string strings[SPLITARRSIZE];
-	std::istringstream f("Dir|Folder1|2|6,3|");
-	std::string s;
+	std::string blockInfo = "";
+	std::istringstream f(blockStr);
+	std::string s = "";;
 	for (int i = 0; i < SPLITARRSIZE; i++) {
+
 		getline(f, s, '|');
 		blockInfo += (s+"      ");
+
 	}
+
 	blockInfo += "\n";
 
 	return blockInfo;

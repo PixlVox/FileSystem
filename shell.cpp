@@ -21,6 +21,8 @@ std::string getFilePath(std::string userCommand);
 int searchForInvalidChar(std::string filePath);
 void changeFolder(FileSystem& fS, std::string userCommand);
 void createFolder(FileSystem& fS, std::string userCommand);
+void listDirectory(FileSystem& fS);
+void remove(FileSystem& fS, std::string userCommand);
 
 int main(void) {
 
@@ -52,7 +54,7 @@ int main(void) {
 				fS.resetMemBlock();
                 break;
             case 2: // ls
-                std::cout << "Listing directory" << std::endl;
+				listDirectory(fS);
                 break;
             case 3: // create
                 break;
