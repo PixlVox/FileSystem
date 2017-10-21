@@ -17,8 +17,10 @@ bool quit();
 std::string help();
 
 /* More functions ... */
-std::string getFilePath(std::string userCommand, int pathStartIndex);
+std::string getFilePath(std::string userCommand);
+int searchForInvalidChar(std::string filePath);
 void changeFolder(FileSystem& fS, std::string userCommand);
+void createFolder(FileSystem& fS, std::string userCommand);
 
 int main(void) {
 
@@ -69,6 +71,7 @@ int main(void) {
             case 10: // mv
                 break;
             case 11: // mkdir
+				createFolder(fS, userCommand);
                 break;
             case 12: // cd
 				changeFolder(fS, userCommand);
@@ -137,11 +140,27 @@ std::string help() {
 }
 
 /* Insert code for your shell functions and call them from the switch-case */
-std::string getFilePath(std::string userCommand, int pathStartIndex) {
+std::string getFilePath(std::string userCommand) {
 
 	std::string filePath = "";
+	bool stopSearch = false;
+	int startIndex = 0;
 
-	for (int i = pathStartIndex; i < userCommand.length(); i++) {
+	//Find end of function call, untill the filePath input starts
+	for (int i = 0; i < userCommand.length() && !stopSearch; i++) {
+
+		if (userCommand.at(i) == ' ') {
+
+			stopSearch = true;
+
+		}
+
+		startIndex++;
+
+	}
+
+	//Save the filePath input in a separate string
+	for (int i = startIndex; i < userCommand.length(); i++) {
 
 		filePath += userCommand.at(i);
 
@@ -151,8 +170,37 @@ std::string getFilePath(std::string userCommand, int pathStartIndex) {
 
 }
 
+int searchForInvalidChar(std::string filePath) {
+
+	int error = -1;
+	bool stopSearch = false;
+
+	if (filePath.length() == 0) {
+
+		error = 4;
+
+	}
+	else{
+	
+		for (int i = 0; i < filePath.length() && !stopSearch; i++) {
+
+			if (filePath.at(i) == '|') {
+
+				error = 3;
+				stopSearch = true;
+
+			}
+
+		}
+	
+	}
+
+	return error;
+
+}
+
 void remove(FileSystem& fS, std::string userCommand) {
-	std::string filePath = getFilePath(userCommand, 3);
+	std::string filePath = getFilePath(userCommand);
 
 	int removed = fS.remove(filePath);
 
@@ -164,7 +212,7 @@ void remove(FileSystem& fS, std::string userCommand) {
 
 void changeFolder(FileSystem& fS, std::string userCommand) {
 
-	std::string filePath = getFilePath(userCommand, 3);
+	std::string filePath = getFilePath(userCommand);
 	int result = fS.changeDir(filePath);
 
 	switch (result) {
@@ -175,11 +223,46 @@ void changeFolder(FileSystem& fS, std::string userCommand) {
 	case 2:
 		std::cout << "You are in the root directory!\n";
 		break;
-
 	case 3:
 		std::cout << "There is no directory with the name " << filePath << " in the current directory!\n";
 		break;
+	default:
+		break;
 
+	}
+
+}
+
+void createFolder(FileSystem& fS, std::string userCommand) {
+
+	int result = -1;
+
+	//Separates the filePath
+	std::string filePath = getFilePath(userCommand);
+
+	//Checks filePath for invalis char |
+	result = searchForInvalidChar(filePath);
+
+	//Tries to create folder
+	if (result == -1) {
+
+		result = fS.createFolder(filePath);
+
+	}
+
+	switch (result) {
+
+	case 1:
+		std::cout << "There are no empty blocks left!\n";
+		break;
+	case 2:
+		std::cout << "A folder with the same name already exists in the current folder!\n";
+		break;
+	case 3:
+		std::cout << "The folder has invalid characters in its name!\n";
+	case 4:
+		std::cout << "The folder needs a name!\n";
+		break;
 	default:
 		break;
 

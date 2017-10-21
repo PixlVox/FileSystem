@@ -81,6 +81,36 @@ void TreeStructure::goToNextDir(int index, int nrOfSubs, int* subs) {
 
 }
 
+void TreeStructure::setNewSub(int blockId) {
+
+	//If there are no subs the array will be created with the new one
+	if (this->currentDir->subs = nullptr) {
+
+		this->currentDir->nrOfSubs = 1;
+		this->currentDir->subs = new int[this->currentDir->nrOfSubs];
+		this->currentDir->subs[0] = blockId;
+
+	}
+	else {	//If there are subs the array will be copied and resized with the new sub
+
+		int* tempSubs = new int[(this->currentDir->nrOfSubs + 1)];
+
+		for (int i = 0; i < this->currentDir->nrOfSubs; i++) {
+
+			tempSubs[i] = this->currentDir->subs[i];
+
+		}
+
+
+		//Adding the new sub and asigning the new subs array
+		tempSubs[this->currentDir->nrOfSubs] = blockId;
+		this->currentDir->subs = tempSubs;
+		this->currentDir->nrOfSubs++;
+		//delete this->currentDir->subs;	Might be a memory leak
+
+	}
+
+}
 
 const int* TreeStructure::getCurrentSubs() const {
 
@@ -91,5 +121,11 @@ const int* TreeStructure::getCurrentSubs() const {
 int TreeStructure::getNrOfCurrentSubs() const{
 
 	return this->currentDir->nrOfSubs;
+
+}
+
+int TreeStructure::getCurrentBlockId() const{
+
+	return this->currentDir->blockId;
 
 }

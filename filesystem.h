@@ -11,7 +11,7 @@ class FileSystem
 
 private:
     
-	MemBlockDevice mBD;	//Blocks are saved containing: Type|Name|Content(ex if DIR: 5,3,6)
+	MemBlockDevice mBD;	//Blocks are saved containing: Type|Name|Content|
 	TreeStructure tree;
 
 	int emptyIndex[NROFBLOCKS];  // 0 = Used, 1 = Empty
@@ -21,10 +21,13 @@ private:
 	//Private functions
 	int* getSubs(int blockId);
 	int getNrOfSubs(int blockId);
+	void writeToBlock(int blockId, std::string content);
+
+	int findEmptyBlock();
+	int findExistingSub(std::string filePath, bool isFolder);
 
 	int searchForFilePath(std::string filePath, bool isFolder);
 	int searchForBlockId(std::string filePath) const;
-	int getTypeFromBlockId(int BlockId) const;
 
 	int create(std::string name, bool isFolder);
 	/* Removes a file in the filesystem */
@@ -56,8 +59,6 @@ public:
 
     /* This function will get all the files and folders in the specified folder */
     // listDir(...);
-
-    /* Add your own member-functions if needed */
 
 };
 
