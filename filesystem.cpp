@@ -60,7 +60,12 @@ std::string FileSystem::listDir(){
 		for (int i = 0; i < tree.getNrOfCurrentSubs(); i++) {
 
 			blockStr = mBD.readBlock(this->tree.getCurrentSubs()[i]).toString();
-			helpStr += splitBlockStr(blockStr);
+			if (this->isFolder[this->tree.getCurrentSubs()[i]] == 1) {
+				helpStr += splitBlockStrFolder(blockStr);
+			}
+			else if (this->isFolder[this->tree.getCurrentSubs()[i]] == 0) {
+				helpStr += splitBlockStrFile(blockStr);
+			}
 
 		}
 
@@ -70,15 +75,39 @@ std::string FileSystem::listDir(){
 
 }
 
-std::string FileSystem::splitBlockStr(std::string blockStr)
+std::string FileSystem::splitBlockStrFolder(std::string blockStr)
 {
 	std::string blockInfo = "";
 	std::istringstream f(blockStr);
-	std::string s = "";;
+	std::string s = "";
 	for (int i = 0; i < SPLITARRSIZE; i++) {
 
 		getline(f, s, '|');
-		blockInfo += (s+"      ");
+		blockInfo += (s + "      ");
+
+	}
+
+	blockInfo += "\n";
+
+	return blockInfo;
+}
+
+std::string FileSystem::splitBlockStrFile(std::string blockStr)
+{
+
+	std::string blockInfo = "";
+	std::istringstream f(blockStr);
+	std::string s = "";
+	for (int i = 0; i < 3; i++) {
+
+		getline(f, s, '|');
+
+		if (i < 2) {
+			blockInfo += (s + "      ");
+		}
+		else if (i = 2) {
+			blockInfo += std::to_string(s.size());
+		}
 
 	}
 

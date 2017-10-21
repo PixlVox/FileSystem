@@ -25,7 +25,8 @@ private:
 	void writeToBlock(int blockId, std::string content);
 
 	std::string getFileContentFromBlock(std::string blockStr);
-	std::string splitBlockStr(std::string blockStr);
+	std::string splitBlockStrFolder(std::string blockStr);
+	std::string splitBlockStrFile(std::string blockStr);
 
 	int findEmptyBlock();
 	int findExistingSub(std::string filePath, bool isFolder);
