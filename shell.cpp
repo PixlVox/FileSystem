@@ -63,6 +63,7 @@ int main(void) {
             case 6: // restoreImage
                 break;
             case 7: // rm
+				remove(fS, userCommand);
                 break;
             case 8: // cp
                 break;
@@ -208,6 +209,10 @@ void remove(FileSystem& fS, std::string userCommand) {
 		std::cout << "There is no file or directory with that name\n.";
 	}
 
+}
+
+void listDirectory(FileSystem& fS) {
+	std::cout << fS.listDir();
 }
 
 void changeFolder(FileSystem& fS, std::string userCommand) {
