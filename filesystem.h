@@ -27,7 +27,8 @@ private:
 
 
 	std::string getFileContentFromBlock(std::string blockStr);
-	std::string splitBlockStr(std::string blockStr);
+	std::string splitBlockStrFolder(std::string blockStr);
+	std::string splitBlockStrFile(std::string blockStr);
 
 
 	int findEmptyBlock();
