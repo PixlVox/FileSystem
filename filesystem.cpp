@@ -468,6 +468,37 @@ int FileSystem::remove(std::string filePath){
 
 }
 
+std::string FileSystem::getFileContentFromBlock(std::string blockStr)
+{
+	std::string fileContent;
+	std::istringstream f(blockStr);
+	std::string s;
+	for (int i = 0; i < 3; i++) {
+		getline(f, s, '|');
+		if (i == 2) {
+			fileContent += (s + "      ");
+		}
+	}
+	fileContent += "\n";
+
+	return fileContent;
+}
+
+std::string FileSystem::getContentOfFile(std::string filePath)
+{
+	std::string content = "File not found.";
+	std::string blockStr = "";
+
+	int blockId = searchForFilePath(filePath, false);
+	if (blockId != -1) {
+		blockStr = mBD.readBlock(blockId).toString();
+		content = getFileContentFromBlock(blockStr);
+	}
+
+
+	return content;
+}
+
 int FileSystem::removeFile(int blockId){
 
 	int removed = 0; // 0 = failed, 1 = succsess

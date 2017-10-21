@@ -21,6 +21,7 @@ std::string getFilePath(std::string userCommand);
 int searchForInvalidChar(std::string filePath);
 void changeFolder(FileSystem& fS, std::string userCommand);
 void createFolder(FileSystem& fS, std::string userCommand);
+void printFileContent(FileSystem& fS, std::string userCommand);
 
 int main(void) {
 
@@ -57,6 +58,7 @@ int main(void) {
             case 3: // create
                 break;
             case 4: // cat
+				printFileContent(fS, userCommand);
                 break;
             case 5: // createImage
                 break;
@@ -213,6 +215,11 @@ void remove(FileSystem& fS, std::string userCommand) {
 
 void listDirectory(FileSystem& fS) {
 	std::cout << fS.listDir();
+}
+
+void printFileContent(FileSystem& fS, std::string userCommand) {
+	std::string filePath = getFilePath(userCommand);
+	std::cout << fS.getContentOfFile(filePath);
 }
 
 void changeFolder(FileSystem& fS, std::string userCommand) {

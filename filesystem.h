@@ -26,7 +26,8 @@ private:
 	int getNrOfSubs(int blockId);
 	void writeToBlock(int blockId, std::string content);
 
-	
+
+	std::string getFileContentFromBlock(std::string blockStr);
 	std::string splitBlockStr(std::string blockStr, std::string blockStrArr[]);
 
 	int findEmptyBlock();
@@ -49,6 +50,8 @@ public:
 
     void resetMemBlock();
 	int remove(std::string filePath);
+
+	std::string getContentOfFile(std::string filePath);
 
     /* These API functions need to be implemented
 	   You are free to specify parameter lists and return values
