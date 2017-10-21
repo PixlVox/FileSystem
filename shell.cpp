@@ -21,6 +21,7 @@ std::string getFilePath(std::string userCommand);
 int searchForInvalidChar(std::string filePath);
 void changeFolder(FileSystem& fS, std::string userCommand);
 void createFolder(FileSystem& fS, std::string userCommand);
+void createFile(FileSystem& fS, std::string userCommand);
 void printFileContent(FileSystem& fS, std::string userCommand);
 void listDirectory(FileSystem& fS);
 void remove(FileSystem& fS, std::string userCommand);
@@ -59,6 +60,7 @@ int main(void) {
 				listDirectory(fS);
                 break;
             case 3: // create
+				createFile(fS, userCommand);
                 break;
             case 4: // cat
 				printFileContent(fS, userCommand);
@@ -277,6 +279,64 @@ void createFolder(FileSystem& fS, std::string userCommand) {
 		std::cout << "The folder has invalid characters in its name!\n";
 	case 4:
 		std::cout << "The folder needs a name!\n";
+		break;
+	default:
+		break;
+
+	}
+
+}
+
+void createFile(FileSystem& fS, std::string userCommand) {
+
+	int result = -1;
+	std::string fileContent = "";
+
+	//Separates the filePath
+	std::string filePath = getFilePath(userCommand);
+
+	//Checks filePath for invalis char |
+	result = searchForInvalidChar(filePath);
+
+	if (result == -1) {
+
+		//Get file input
+		std::cout << "Enter text: ";
+		std::getline(std::cin, fileContent);
+
+		result = searchForInvalidChar(fileContent);
+
+		//Tries to create file
+		if (result == -1) {
+
+			result = fS.createFile(filePath, fileContent);
+
+		}
+		else {
+
+			//Increse the result index to make a unique error msg
+			result+= 2;	//Error 5
+
+		}
+
+	}
+
+	switch (result) {
+
+	case 1:
+		std::cout << "There are no empty blocks left!\n";
+		break;
+	case 2:
+		std::cout << "A file with the same name already exists in the current folder!\n";
+		break;
+	case 3:
+		std::cout << "The file has invalid characters in its name!\n";
+		break;
+	case 4:
+		std::cout << "The file needs a name!\n";
+		break;
+	case 5:
+		std::cout << "The file has invalid characters in its content!\n";
 		break;
 	default:
 		break;

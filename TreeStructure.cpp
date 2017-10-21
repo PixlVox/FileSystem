@@ -100,8 +100,6 @@ void TreeStructure::setNewSub(int blockId) {
 	}
 	else {	//If there are subs the array will be copied and resized with the new sub
 
-		std::cout << this->currentDir->subs[0];
-
 		int* tempSubs = new int[(this->currentDir->nrOfSubs + 1)];
 
 		for (int i = 0; i < this->currentDir->nrOfSubs; i++) {

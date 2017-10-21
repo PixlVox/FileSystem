@@ -374,7 +374,77 @@ int FileSystem::create(std::string name, bool isFolder){
 
 }
 
-int FileSystem::createFile(std::string fileName){
+int FileSystem::createFile(std::string fileName, std::string fileContent){
+
+	int error = -1;
+
+	//Finds empty block
+	int blockId = this->findEmptyBlock();
+
+	if (blockId != -1) {
+
+		//Search the current subs for a file with the same name
+		error = this->findExistingSub(fileName, false);
+
+		if (error == -1) {
+
+			//Create string with the releveant info
+			std::string info = "File|" + fileName + '|' + fileContent + '|';
+
+			//Save the data in the correct block
+			this->writeToBlock(blockId, info);
+
+			//Updates arrays
+			this->isFolder[blockId] = 0;
+			this->emptyIndex[blockId] = 0;
+
+			//Adds sub to current node in tree
+			this->tree.setNewSub(blockId);
+
+			//Update the blocks data for the current folder
+			std::string updatedData = "";
+			std::string oldData = this->mBD.readBlock(this->tree.getCurrentBlockId()).toString();
+
+			//Copies the data that has not changed (Type & Name)
+			int checkString = 0;
+			for (int i = 0; i < oldData.length() && checkString < 2; i++) {
+
+				if (oldData.at(i) == '|') {
+
+					checkString++;
+
+				}
+
+				updatedData += oldData.at(i);
+
+			}
+
+			//Adds the updated data (Number of subs and the subs)
+			updatedData += std::to_string(this->tree.getCurrentBlockId()) + '|';
+
+			const int* currentSubs = this->tree.getCurrentSubs();
+
+			for (int i = 0; i < this->tree.getNrOfCurrentSubs(); i++) {
+
+				updatedData += std::to_string(currentSubs[i]) + ',';
+
+			}
+
+			updatedData += '|';
+
+			//Writes the new data to the correct block
+			this->writeToBlock(this->tree.getCurrentBlockId(), updatedData);
+
+		}
+
+	}
+	else {
+
+		error = 1;
+
+	}
+
+	return error;
 
 	return 0;
 
@@ -392,7 +462,7 @@ int FileSystem::createFolder(std::string folderName){
 		//Search the current subs for a folder with the same name
 		error = this->findExistingSub(folderName, true);
 		
-		if (error = -1) {
+		if (error == -1) {
 
 			//Create string with the releveant info
 			std::string info = "Dir|" + folderName + "|0||";
@@ -478,31 +548,40 @@ int FileSystem::remove(std::string filePath){
 
 std::string FileSystem::getFileContentFromBlock(std::string blockStr)
 {
-	std::string fileContent;
+	std::string fileContent = "";
 	std::istringstream f(blockStr);
-	std::string s;
+	std::string s = "";
+
 	for (int i = 0; i < 3; i++) {
+
 		getline(f, s, '|');
+
 		if (i == 2) {
+
 			fileContent += (s + "      ");
+
 		}
 	}
+
 	fileContent += "\n";
 
 	return fileContent;
+
 }
 
 std::string FileSystem::getContentOfFile(std::string filePath)
 {
-	std::string content = "File not found.";
+	std::string content = "File not found.\n";
 	std::string blockStr = "";
 
 	int blockId = searchForFilePath(filePath, false);
+
 	if (blockId != -1) {
+
 		blockStr = mBD.readBlock(blockId).toString();
 		content = getFileContentFromBlock(blockStr);
+	
 	}
-
 
 	return content;
 }

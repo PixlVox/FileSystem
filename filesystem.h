@@ -24,11 +24,8 @@ private:
 	int getNrOfSubs(int blockId);
 	void writeToBlock(int blockId, std::string content);
 
-
-
 	std::string getFileContentFromBlock(std::string blockStr);
 	std::string splitBlockStr(std::string blockStr);
-
 
 	int findEmptyBlock();
 	int findExistingSub(std::string filePath, bool isFolder);
@@ -41,7 +38,6 @@ private:
 	int removeFile(int blockId);
     /* Removes a folder in the filesystem */
 	int removeFolder(int blockId);
-
 
 public:
 
@@ -58,7 +54,7 @@ public:
     */
 
     /* This function creates a file in the filesystem */
-	int createFile(std::string fileName);
+	int createFile(std::string fileName, std::string fileContent);
 
     /* Creates a folder in the filesystem */
 	int createFolder(std::string folderName);
