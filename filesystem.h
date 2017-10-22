@@ -47,6 +47,7 @@ public:
     ~FileSystem();
 	
     void resetMemBlock();
+
 	int remove(std::string filePath, int isFolder);
 
 	std::string getContentOfFile(std::string filePath);

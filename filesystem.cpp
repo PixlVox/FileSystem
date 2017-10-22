@@ -762,12 +762,13 @@ int FileSystem::createImage(std::string filePath) {
 
 	file << "\n";
 	
-
+	//Second row IsFolder
 	for (int i = 0; i < NROFBLOCKS; i++) {
 		file << isFolder[i];
 	}
 	file << "\n";
 	
+	//All other rows blocks
 	for (int i = 0; i < NROFBLOCKS; i++) {
 		file << mBD.readBlock(i).toString();
 		file << "\n";
@@ -789,19 +790,21 @@ int FileSystem::readImage(std::string filePath)
 		result = 1;
 	}
 	//Read content of file
+	//First Row EmptyINdex
 	getline(file, tempString);
 
 	for (int i = 0; i < NROFBLOCKS; i++) {
 		emptyIndex[i] = (int)(tempString.at(i)) -48;//Gets ASCII for char, -48 to get int value(0/1)
 		
 	}
-	//First Row EmptyINdex
+
+	//Second Row isFolder
 	getline(file, tempString);
 
 	for (int i = 0; i < NROFBLOCKS; i++) {
 		isFolder[i] = (int)tempString.at(i) -48;//Gets ASCII for char, -48 to get int value(0/1)
 	}
-	//Second Row isFolder
+	
 	//250 Rows of Blocks 0 - 249
 	for (int i = 0; i < NROFBLOCKS; i++) {
 		getline(file, tempString);
