@@ -27,7 +27,11 @@ void printWorkingDir(FileSystem& fS);
 void listDirectory(FileSystem& fS);
 void remove(FileSystem& fS, std::string userCommand);
 void createImage(FileSystem& fS, std::string userCommand);
+<<<<<<< HEAD
 void copyFile(FileSystem& fS, std::string userCommand);
+=======
+void restoreImage(FileSystem& fS, std::string userCommand);
+>>>>>>> 755fab717d53d5b936a78dd9acfae8263467c969
 
 
 int main(void) {
@@ -72,6 +76,7 @@ int main(void) {
 				createImage(fS, userCommand);
                 break;
             case 6: // restoreImage
+				restoreImage(fS, userCommand);
                 break;
             case 7: // rm
 				remove(fS, userCommand);
@@ -414,6 +419,7 @@ void createImage(FileSystem& fS, std::string userCommand) {
 
 }
 
+<<<<<<< HEAD
 void copyFile(FileSystem& fS, std::string userCommand) {
 
 	int result = -1;
@@ -457,3 +463,19 @@ void copyFile(FileSystem& fS, std::string userCommand) {
 	}
 
 }
+=======
+void restoreImage(FileSystem & fS, std::string userCommand)
+{
+	std::string filePath = getFilePath(userCommand);
+
+	int result = fS.readImage(filePath);
+
+	if (result == -1) {
+		std::cout << "Image not found.\n";
+	}
+	else {
+		std::cout << "Succsesfully restored image.\n";
+	}
+
+}
+>>>>>>> 755fab717d53d5b936a78dd9acfae8263467c969

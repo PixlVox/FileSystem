@@ -70,6 +70,7 @@ public:
 	std::string getWorkingDir();
 
 	int createImage(std::string filePath);
+	int readImage(std::string filePath);
 
 	//Copies a file
 	int copyFile(std::string copyPath, std::string newPath);
