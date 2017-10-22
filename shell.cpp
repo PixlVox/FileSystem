@@ -454,11 +454,18 @@ void copyFile(FileSystem& fS, std::string userCommand) {
 	
 	/*if (result != -1) {
 
-		switch
+		switch (result) {
+
+		case 1:
+			break;
+		default:
+			break;
+		}
 			
 	}*/
 
 }
+
 void restoreImage(FileSystem & fS, std::string userCommand)
 {
 	std::string filePath = getFilePath(userCommand);
@@ -472,4 +479,6 @@ void restoreImage(FileSystem & fS, std::string userCommand)
 		std::cout << "Succsesfully restored image.\n";
 	}
 
+
 }
+

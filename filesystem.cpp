@@ -755,12 +755,14 @@ int FileSystem::createImage(std::string filePath) {
 	file.open("FileSystemSaves//" + filePath + ".txt");
 	//Save content to file
 
-	//First Row EmptyINdex
+	//First Row EmptyIndex
 	for (int i = 0; i < NROFBLOCKS; i++) {
 		file << emptyIndex[i];
 	}
+
 	file << "\n";
 	
+
 	for (int i = 0; i < NROFBLOCKS; i++) {
 		file << isFolder[i];
 	}
