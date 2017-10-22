@@ -451,8 +451,10 @@ void copyFile(FileSystem& fS, std::string userCommand) {
 		counter++;
 
 	}
+
+	result = fS.copyFile(cpFile, newFile);
 	
-	if (result != -1) {
+	/*if (result != -1) {
 
 		switch (result) {
 
@@ -462,7 +464,7 @@ void copyFile(FileSystem& fS, std::string userCommand) {
 			break;
 		}
 			
-	}
+	}*/
 
 }
 
@@ -479,4 +481,6 @@ void restoreImage(FileSystem & fS, std::string userCommand)
 		std::cout << "Succsesfully restored image.\n";
 	}
 
+
 }
+

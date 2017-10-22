@@ -752,8 +752,8 @@ int FileSystem::createImage(std::string filePath) {
 
 	int result = -1;
 	std::ofstream file;
-
 	file.open("FileSystemSaves//" + filePath + ".txt");
+	//Save content to file
 
 	//First Row EmptyIndex
 	for (int i = 0; i < NROFBLOCKS; i++) {
@@ -823,16 +823,43 @@ int FileSystem::readImage(std::string filePath)
 
 int FileSystem::copyFile(std::string copyPath, std::string newPath) {
 
-	int error = -1;
+	int blockId = -1;
+	int emptyBlock = -1;
+	std::string content = "";
+	std::string blockStr = "";
 
 	//Search for the oldFile in currentDir
+	blockId = searchForFilePath(copyPath, false);
 
-	//If found seach for emptyBlockId
+	//If found search for emptyBlockId
+	emptyBlock = findEmptyBlock();
 
 	//If found copy over copyPath Content into new Path
-
+	blockStr = mBD.readBlock(blockId).toString();
+	content = splitBlockForCopy(blockStr);
+	
 	//CreateFile function call with the newPath file
+	createFile(newPath, content);
 
-	return error;
+	return blockId;
+}
+
+std::string FileSystem::splitBlockForCopy(std::string blockStr)
+{
+	std::string fileContent = "";
+	std::istringstream f(blockStr);
+	std::string s = "";
+	for (int i = 0; i < SPLITARRSIZE; i++) {
+		getline(f, s, '|');
+		
+		//Position 2 contains the content of the file.
+		if (i == 2) {
+
+			fileContent = s;
+		}
+
+	}
+
+	return fileContent;
 
 }
