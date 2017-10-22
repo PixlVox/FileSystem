@@ -474,14 +474,14 @@ int FileSystem::createFile(std::string fileName, std::string fileContent){
 			}
 
 			//Adds the updated data (Number of subs and the subs)
-			updatedData += std::to_string(this->tree.getCurrentBlockId()) + '|';
+			updatedData += std::to_string(this->tree.getNrOfCurrentSubs()) + '|';
 
 			const int* currentSubs = this->tree.getCurrentSubs();
 
 			for (int i = 0; i < this->tree.getNrOfCurrentSubs(); i++) {
 
 				updatedData += std::to_string(currentSubs[i]) + ',';
-
+				
 			}
 
 			updatedData += '|';
@@ -550,7 +550,7 @@ int FileSystem::createFolder(std::string folderName){
 			}
 
 			//Adds the updated data (Number of subs and the subs)
-			updatedData += std::to_string(this->tree.getCurrentBlockId()) + '|';
+			updatedData += std::to_string(this->tree.getNrOfCurrentSubs()) + '|';
 
 			const int* currentSubs = this->tree.getCurrentSubs();
 
@@ -792,14 +792,14 @@ int FileSystem::readImage(std::string filePath)
 	getline(file, tempString);
 
 	for (int i = 0; i < NROFBLOCKS; i++) {
-		emptyIndex[i] = (int)(tempString.at(i)) -48;
+		emptyIndex[i] = (int)(tempString.at(i)) -48;//Gets ASCII for char, -48 to get int value(0/1)
 		
 	}
 	//First Row EmptyINdex
 	getline(file, tempString);
 
 	for (int i = 0; i < NROFBLOCKS; i++) {
-		isFolder[i] = (int)tempString.at(i) -48;
+		isFolder[i] = (int)tempString.at(i) -48;//Gets ASCII for char, -48 to get int value(0/1)
 	}
 	//Second Row isFolder
 	//250 Rows of Blocks 0 - 249
@@ -807,7 +807,11 @@ int FileSystem::readImage(std::string filePath)
 		getline(file, tempString);
 		writeToBlock(i, tempString);
 	}
+
+	//Resets tree to fresh root node
 	tree.resetTree();
+
+	//Adds the required subs to be able to traverse nodes
 	tree.setNrOfSubs(this->getNrOfSubs(0));
 	tree.setSubs(this->getSubs(0));
 
@@ -828,5 +832,7 @@ int FileSystem::copyFile(std::string copyPath, std::string newPath) {
 	//If found copy over copyPath Content into new Path
 
 	//CreateFile function call with the newPath file
+
+	return error;
 
 }

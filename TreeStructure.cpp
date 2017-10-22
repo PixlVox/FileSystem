@@ -144,14 +144,14 @@ void TreeStructure::resetTree() {
 
 	}
 
-	//Deletes the root nodes 
+	//Deletes the root nodes subs
 	if (this->currentDir->subs != nullptr) {
 
 		delete[] this->currentDir->subs;
 		this->currentDir->subs = nullptr;
+		this->currentDir->nrOfSubs = 0;
 
 	}
-
 
 }
 
