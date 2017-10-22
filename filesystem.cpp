@@ -34,7 +34,7 @@ void FileSystem::resetInfo() {
 	this->emptyIndex[0] = 0;
 	this->isFolder[0] = 1;
 
-	for (int i = 1; i < (NROFBLOCKS - 1); i++) {
+	for (int i = 1; i < NROFBLOCKS; i++) {
 
 		this->emptyIndex[i] = 1;
 		this->isFolder[i] = 0;
@@ -747,7 +747,7 @@ int FileSystem::createImage(std::string filePath) {
 
 	int result = -1;
 	std::ofstream file;
-	file.open("FileSystemSaves//" + filePath + ".txt");
+	file.open(filePath + ".txt");
 
 	//Save content to file
 	//First Row EmptyINdex
@@ -757,5 +757,19 @@ int FileSystem::createImage(std::string filePath) {
 	file.close();
 
 	return result;
+
+}
+
+int FileSystem::copyFile(std::string copyPath, std::string newPath) {
+
+	int error = -1;
+
+	//Search for the oldFile in currentDir
+
+	//If found seach for emptyBlockId
+
+	//If found copy over copyPath Content into new Path
+
+	//CreateFile function call with the newPath file
 
 }

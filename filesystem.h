@@ -71,6 +71,9 @@ public:
 
 	int createImage(std::string filePath);
 
+	//Copies a file
+	int copyFile(std::string copyPath, std::string newPath);
+
 };
 
 #endif // FILESYSTEM_H

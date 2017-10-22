@@ -27,6 +27,7 @@ void printWorkingDir(FileSystem& fS);
 void listDirectory(FileSystem& fS);
 void remove(FileSystem& fS, std::string userCommand);
 void createImage(FileSystem& fS, std::string userCommand);
+void copyFile(FileSystem& fS, std::string userCommand);
 
 
 int main(void) {
@@ -76,6 +77,7 @@ int main(void) {
 				remove(fS, userCommand);
                 break;
             case 8: // cp
+				copyFile(fS, userCommand);
                 break;
             case 9: // append
                 break;
@@ -408,6 +410,50 @@ void createImage(FileSystem& fS, std::string userCommand) {
 			break;
 		}
 
+	}
+
+}
+
+void copyFile(FileSystem& fS, std::string userCommand) {
+
+	int result = -1;
+
+	//Get Both FilePaths from userCommand (Assuming that the files does not contain space)
+	std::string cpFile = "";
+	std::string newFile = "";
+	int counter = 0;
+	int checkString = 0;
+	while (counter != userCommand.length()) {
+
+		if (checkString > 0) {
+
+			if (checkString == 1 && userCommand.at(counter) != ' ') {
+
+				cpFile += userCommand.at(counter);
+
+			}
+			else if (checkString == 2 && userCommand.at(counter) != ' ') {
+
+				newFile += userCommand.at(counter);
+
+			}
+
+		}
+
+		if (userCommand.at(counter) == ' ') {
+
+			checkString++;
+
+		}
+
+		counter++;
+
+	}
+	
+	if (result != -1) {
+
+		switch
+			
 	}
 
 }
