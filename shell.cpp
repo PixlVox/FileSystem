@@ -451,6 +451,8 @@ void copyFile(FileSystem& fS, std::string userCommand) {
 		counter++;
 
 	}
+
+	result = fS.copyFile(cpFile, newFile);
 	
 	/*if (result != -1) {
 
