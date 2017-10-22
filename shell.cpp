@@ -27,11 +27,8 @@ void printWorkingDir(FileSystem& fS);
 void listDirectory(FileSystem& fS);
 void remove(FileSystem& fS, std::string userCommand);
 void createImage(FileSystem& fS, std::string userCommand);
-<<<<<<< HEAD
 void copyFile(FileSystem& fS, std::string userCommand);
-=======
 void restoreImage(FileSystem& fS, std::string userCommand);
->>>>>>> 755fab717d53d5b936a78dd9acfae8263467c969
 
 
 int main(void) {
@@ -419,7 +416,6 @@ void createImage(FileSystem& fS, std::string userCommand) {
 
 }
 
-<<<<<<< HEAD
 void copyFile(FileSystem& fS, std::string userCommand) {
 
 	int result = -1;
@@ -458,12 +454,18 @@ void copyFile(FileSystem& fS, std::string userCommand) {
 	
 	if (result != -1) {
 
-		switch
+		switch (result) {
+
+		case 1:
+			break;
+		default:
+			break;
+		}
 			
 	}
 
 }
-=======
+
 void restoreImage(FileSystem & fS, std::string userCommand)
 {
 	std::string filePath = getFilePath(userCommand);
@@ -478,4 +480,3 @@ void restoreImage(FileSystem & fS, std::string userCommand)
 	}
 
 }
->>>>>>> 755fab717d53d5b936a78dd9acfae8263467c969

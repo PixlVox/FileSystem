@@ -35,11 +35,7 @@ void FileSystem::resetInfo() {
 	this->emptyIndex[0] = 0;
 	this->isFolder[0] = 1;
 
-<<<<<<< HEAD
 	for (int i = 1; i < NROFBLOCKS; i++) {
-=======
-	for (int i = 1; i < (NROFBLOCKS); i++) {
->>>>>>> 755fab717d53d5b936a78dd9acfae8263467c969
 
 		this->emptyIndex[i] = 1;
 		this->isFolder[i] = 0;
@@ -756,20 +752,17 @@ int FileSystem::createImage(std::string filePath) {
 
 	int result = -1;
 	std::ofstream file;
-<<<<<<< HEAD
-	file.open(filePath + ".txt");
 
-=======
 	file.open("FileSystemSaves//" + filePath + ".txt");
->>>>>>> 755fab717d53d5b936a78dd9acfae8263467c969
-	//Save content to file
 
-	//First Row EmptyINdex
+	//First Row EmptyIndex
 	for (int i = 0; i < NROFBLOCKS; i++) {
 		file << emptyIndex[i];
 	}
+
 	file << "\n";
 	
+
 	for (int i = 0; i < NROFBLOCKS; i++) {
 		file << isFolder[i];
 	}
@@ -821,7 +814,6 @@ int FileSystem::readImage(std::string filePath)
 	file.close();
 
 	return result;
-<<<<<<< HEAD
 
 }
 
@@ -838,6 +830,3 @@ int FileSystem::copyFile(std::string copyPath, std::string newPath) {
 	//CreateFile function call with the newPath file
 
 }
-=======
-}
->>>>>>> 755fab717d53d5b936a78dd9acfae8263467c969
