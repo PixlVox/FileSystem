@@ -70,6 +70,7 @@ public:
 	std::string getWorkingDir();
 
 	int createImage(std::string filePath);
+	int readImage(std::string filePath);
 
 };
 

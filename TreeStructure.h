@@ -53,6 +53,7 @@ public:
 	//Set
 	void setNewSub(int blockId);
 	void setNrOfSubs(int nr);
+	void setSubs(int* subs);
 
 	//Get Functions
 	const int* getCurrentSubs() const;

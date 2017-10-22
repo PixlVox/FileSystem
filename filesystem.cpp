@@ -5,6 +5,7 @@ FileSystem::FileSystem() {
 
 	//Resets the info used/Creates a newly created instance of them
 	this->resetInfo();
+	
 
 }
 
@@ -34,11 +35,15 @@ void FileSystem::resetInfo() {
 	this->emptyIndex[0] = 0;
 	this->isFolder[0] = 1;
 
-	for (int i = 1; i < (NROFBLOCKS - 1); i++) {
+	for (int i = 1; i < (NROFBLOCKS); i++) {
 
 		this->emptyIndex[i] = 1;
 		this->isFolder[i] = 0;
 
+	}
+
+	for (int i = 0; i < NROFBLOCKS; i++) {
+		writeToBlock(i, "");
 	}
 
 	//Writes in the root information
@@ -748,14 +753,63 @@ int FileSystem::createImage(std::string filePath) {
 	int result = -1;
 	std::ofstream file;
 	file.open("FileSystemSaves//" + filePath + ".txt");
-
 	//Save content to file
+
 	//First Row EmptyINdex
-	//Second Row isFolder
-	//250 Rows of Blocks 0 - 249
+	for (int i = 0; i < NROFBLOCKS; i++) {
+		file << emptyIndex[i];
+	}
+	file << "\n";
+	
+	for (int i = 0; i < NROFBLOCKS; i++) {
+		file << isFolder[i];
+	}
+	file << "\n";
+	
+	for (int i = 0; i < NROFBLOCKS; i++) {
+		file << mBD.readBlock(i).toString();
+		file << "\n";
+	}
 
 	file.close();
 
 	return result;
 
+}
+
+int FileSystem::readImage(std::string filePath)
+{
+	int result = -1;
+	std::ifstream file;
+	std::string tempString = "";
+	file.open("FileSystemSaves//" + filePath + ".txt");
+	if (file.is_open()) {
+		result = 1;
+	}
+	//Read content of file
+	getline(file, tempString);
+
+	for (int i = 0; i < NROFBLOCKS; i++) {
+		emptyIndex[i] = (int)(tempString.at(i)) -48;
+		
+	}
+	//First Row EmptyINdex
+	getline(file, tempString);
+
+	for (int i = 0; i < NROFBLOCKS; i++) {
+		isFolder[i] = (int)tempString.at(i) -48;
+	}
+	//Second Row isFolder
+	//250 Rows of Blocks 0 - 249
+	for (int i = 0; i < NROFBLOCKS; i++) {
+		getline(file, tempString);
+		writeToBlock(i, tempString);
+	}
+	tree.resetTree();
+	tree.setNrOfSubs(this->getNrOfSubs(0));
+	tree.setSubs(this->getSubs(0));
+
+	file.close();
+
+	return result;
 }

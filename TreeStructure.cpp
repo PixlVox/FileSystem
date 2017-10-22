@@ -152,6 +152,7 @@ void TreeStructure::resetTree() {
 
 	}
 
+
 }
 
 const int* TreeStructure::getCurrentSubs() const {
@@ -176,6 +177,12 @@ void TreeStructure::setNrOfSubs(int nr) {
 
 	this->currentDir->nrOfSubs = nr;
 
+}
+
+void TreeStructure::setSubs(int * subs)
+{
+	delete[] this->currentDir->subs;
+	this->currentDir->subs = subs;
 }
 
 int TreeStructure::getPreviousBlockId(int layers) {
