@@ -51,10 +51,6 @@ public:
 
 	std::string getContentOfFile(std::string filePath);
 
-    /* These API functions need to be implemented
-	   You are free to specify parameter lists and return values
-    */
-
     /* This function creates a file in the filesystem */
 	int createFile(std::string fileName, std::string fileContent);
 

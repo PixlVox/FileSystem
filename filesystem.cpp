@@ -824,6 +824,7 @@ int FileSystem::readImage(std::string filePath)
 int FileSystem::copyFile(std::string copyPath, std::string newPath) {
 
 	int blockId = -1;
+	int error = -1;
 	int emptyBlock = -1;
 	std::string content = "";
 	std::string blockStr = "";
@@ -831,17 +832,37 @@ int FileSystem::copyFile(std::string copyPath, std::string newPath) {
 	//Search for the oldFile in currentDir
 	blockId = searchForFilePath(copyPath, false);
 
-	//If found search for emptyBlockId
-	emptyBlock = findEmptyBlock();
+	if (blockId != -1) {
 
-	//If found copy over copyPath Content into new Path
-	blockStr = mBD.readBlock(blockId).toString();
-	content = splitBlockForCopy(blockStr);
-	
-	//CreateFile function call with the newPath file
-	createFile(newPath, content);
+		//If found search for emptyBlockId
+		emptyBlock = findEmptyBlock();
 
-	return blockId;
+		if (emptyBlock != -1) {
+
+			//If found copy over copyPath Content into new Path
+			blockStr = mBD.readBlock(blockId).toString();
+			content = splitBlockForCopy(blockStr);
+
+			//CreateFile function call with the newPath file
+			createFile(newPath, content);
+
+		}
+		else {
+
+			//No empty blocks left
+			error = 2;
+
+		}
+
+	}
+	else {
+
+		//Path not found
+		error = 1;
+
+	}
+
+	return error;
 }
 
 std::string FileSystem::splitBlockForCopy(std::string blockStr)

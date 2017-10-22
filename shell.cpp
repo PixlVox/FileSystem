@@ -454,17 +454,21 @@ void copyFile(FileSystem& fS, std::string userCommand) {
 
 	result = fS.copyFile(cpFile, newFile);
 	
-	/*if (result != -1) {
+	if (result != -1) {
 
 		switch (result) {
 
 		case 1:
+			std::cout << "Could not find file " << cpFile << "!\n";
+			break;
+		case 2:
+			std::cout << "There are no empty blocks left!\n";
 			break;
 		default:
 			break;
 		}
 			
-	}*/
+	}
 
 }
 
