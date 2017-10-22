@@ -3,19 +3,8 @@
 
 FileSystem::FileSystem() {
 
-	this->emptyIndex[0] = 0;
-	this->isFolder[0] = 1;
-
-	for (int i = 1; i < (NROFBLOCKS - 1); i++) {
-
-		this->emptyIndex[i] = 1;
-		this->isFolder[i] = 0;
-
-	}
-
-	//Creates root dir in memBlock using the structure
-	//Type|FilePath|NrOfSubs|Subs(Separated by ,)|
-	this->writeToBlock(0, "Dir|Root|0||");
+	//Resets the info used/Creates a newly created instance of them
+	this->resetInfo();
 
 }
 
@@ -27,7 +16,32 @@ FileSystem::~FileSystem() {
 
 void FileSystem::resetMemBlock(){
 
+	//Resets the memBlock
 	this->mBD.reset();
+
+	//Resets the TreeStructure
+	this->tree.resetTree();
+	this->tree.setNrOfSubs(0);
+
+	//Resets the info used
+	this->resetInfo();
+
+}
+
+void FileSystem::resetInfo() {
+
+	//Reset Arrays
+	this->emptyIndex[0] = 0;
+	this->isFolder[0] = 1;
+
+	for (int i = 1; i < (NROFBLOCKS - 1); i++) {
+
+		this->emptyIndex[i] = 1;
+		this->isFolder[i] = 0;
+
+	}
+
+	//Writes in the root information
 	this->writeToBlock(0, "Dir|Root|0||");
 
 }
@@ -348,7 +362,7 @@ int FileSystem::findExistingSub(std::string filePath, bool isFolder) {
 
 }
 
-int FileSystem::searchForBlockId(std::string filePath) const{
+int FileSystem::searchForBlockId(std::string filePath, int isFolder) const{
 
 	int index = -1;
 	int stringCheck = 0;
@@ -378,7 +392,13 @@ int FileSystem::searchForBlockId(std::string filePath) const{
 
 		}
 
-		if (tempPath == filePath) {
+		if (tempPath == filePath && this->isFolder[subs[i]] == 1 && isFolder == 1) {
+
+			index = subs[i];
+			found = true;
+
+		}
+		else if (tempPath == filePath && this->isFolder[subs[i]] == 0 && isFolder == 0) {
 
 			index = subs[i];
 			found = true;
@@ -553,22 +573,25 @@ int FileSystem::createFolder(std::string folderName){
 
 }
 
-int FileSystem::remove(std::string filePath){
+int FileSystem::remove(std::string filePath, int isFolder){
 
-	int removed = 0; // 0 = failed, 1 = succsess
+	int removed = -1; // -1 = succsess, else failed
+	int blockId = searchForBlockId(filePath, isFolder);	//Looks for blockId by searching for the filePath
+	
+	if (blockId != -1) {
 
-	int blockId = searchForBlockId(filePath);	//Fins block index of filepath
-							
-	//isFolder value, 0 = File, 1 = Folder
-	if (this->isFolder[blockId] = 0) {
+		//Change value of emptyIndex array
+		this->emptyIndex[blockId] = 1;
 
-		removed = removeFile(blockId);
-		
+		//Remove the sub in currentDirectory that stores the blockId
+		this->tree.removeSub(blockId);
+
 	}
 	else {
 
-		removed = removeFolder(blockId);
-		
+		//If searched for file = 1, folder = 2
+		removed = 1 + isFolder;
+
 	}
 
 	return removed;
@@ -615,34 +638,6 @@ std::string FileSystem::getContentOfFile(std::string filePath)
 	return content;
 }
 
-int FileSystem::removeFile(int blockId){
-
-	int removed = 0; // 0 = failed, 1 = succsess
-	
-	//if file or folder is found, set its block to empty.
-	if (blockId != -1) {
-		emptyIndex[blockId] = 1;
-		removed = 1;
-	}
-
-	return removed;
-
-}
-
-int FileSystem::removeFolder(int blockId){
-
-	int removed = 0; // 0 = failed, 1 = succsess
-	
-	//if file or folder is found, set its block to empty.
-	if (blockId != -1) {
-		emptyIndex[blockId] = 1;
-		removed = 1;
-	}
-
-	return removed;
-
-}
-
 int FileSystem::changeDir(std::string filePath) {
 
 	int result = -1;
@@ -669,6 +664,97 @@ int FileSystem::changeDir(std::string filePath) {
 		}
 
 	}
+
+	return result;
+
+}
+
+std::string FileSystem::getWorkingDir() {
+
+	std::string wD = "";
+	int arrSize = 5;
+	int* index = new int[arrSize];
+	int blockId = 0;
+	int counter = 0;
+
+	//Add blockId for the working dir in an array
+	blockId = this->tree.getPreviousBlockId(counter);
+	while (blockId != -1) {
+
+		//Expand intArr if needed
+		if (counter == arrSize) {
+
+			arrSize += 5;
+			int* temp = new int[arrSize];
+
+			for (int i = 0; i < counter; i++) {
+
+				temp[i] = index[i];
+
+			}
+
+			delete[] index;
+			index = temp;
+
+		}
+
+		//Add blockId to arr
+		index[counter] = blockId;
+		counter++;
+		blockId = this->tree.getPreviousBlockId(counter);
+
+	}
+
+	//Put together the workdingDirectory string
+	for (int i = (counter - 1); i >= 0; i--) {
+
+		wD += this->getFilePath(index[i]) + '/';
+
+	}
+
+	return wD;
+
+}
+
+std::string FileSystem::getFilePath(int blockId) {
+
+	std::string temp = this->mBD.readBlock(blockId).toString();
+	std::string filePath = "";
+	int startIndex = 0;
+
+	int checkString = 0;
+	for (int i = 0; i < temp.length() && checkString < 2; i++) {
+
+		if (checkString == 1 && temp.at(i) != '|') {
+
+			filePath += temp.at(i);
+
+		}
+
+		if (temp.at(i) == '|') {
+
+			checkString++;
+
+		}
+
+	}
+
+	return filePath;
+
+}
+
+int FileSystem::createImage(std::string filePath) {
+
+	int result = -1;
+	std::ofstream file;
+	file.open("FileSystemSaves//" + filePath + ".txt");
+
+	//Save content to file
+	//First Row EmptyINdex
+	//Second Row isFolder
+	//250 Rows of Blocks 0 - 249
+
+	file.close();
 
 	return result;
 

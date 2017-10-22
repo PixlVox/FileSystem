@@ -3,6 +3,7 @@
 
 #include "memblockdevice.h"
 #include "TreeStructure.h"
+#include <fstream>
 
 //Constants
 static int const NROFBLOCKS = 250;
@@ -32,13 +33,12 @@ private:
 	int findExistingSub(std::string filePath, bool isFolder);
 
 	int searchForFilePath(std::string filePath, bool isFolder);
-	int searchForBlockId(std::string filePath) const;
+	int searchForBlockId(std::string filePath, int isFolder) const;
+	std::string getFilePath(int blockId);
 
 	int create(std::string name, bool isFolder);
-	/* Removes a file in the filesystem */
-	int removeFile(int blockId);
-    /* Removes a folder in the filesystem */
-	int removeFolder(int blockId);
+
+	void resetInfo();
 
 public:
 
@@ -46,7 +46,7 @@ public:
     ~FileSystem();
 	
     void resetMemBlock();
-	int remove(std::string filePath);
+	int remove(std::string filePath, int isFolder);
 
 	std::string getContentOfFile(std::string filePath);
 
@@ -65,6 +65,11 @@ public:
 
     /* This function will get all the files and folders in the specified folder */
     std::string listDir();
+
+	//Returns the working directory path
+	std::string getWorkingDir();
+
+	int createImage(std::string filePath);
 
 };
 

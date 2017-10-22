@@ -9,35 +9,7 @@ TreeStructure::TreeStructure() {
 
 TreeStructure::~TreeStructure() {
 
-	Node* temp = nullptr;
-
-	while (this->currentDir != nullptr && this->currentDir->previousDir != nullptr) {
-
-		//Create temp for previous folder
-		temp = this->currentDir->previousDir;
-
-		//Delete subs for current
-		if (this->currentDir->subs != nullptr) {
-
-			delete[] this->currentDir->subs;
-
-		}
-
-		//Delete current
-		delete this->currentDir;
-
-		//Set current to temp
-		this->currentDir = temp;
-		
-	}
-	
-	//Deletes the root node
-	if (this->currentDir->subs != nullptr) {
-
-		delete[] this->currentDir->subs;
-
-	}
-
+	this->resetTree();
 	delete this->currentDir;
 
 }
@@ -123,6 +95,65 @@ void TreeStructure::setNewSub(int blockId) {
 
 }
 
+void TreeStructure::removeSub(int blockId) {
+
+	//Creates a temp sub array that has room for one less
+	int* tempSubs = new int[(this->currentDir->nrOfSubs - 1)];
+
+	//Copy over all the subs exept for the one that is removed
+	int counter = 0;
+	for (int i = 0; i < this->currentDir->nrOfSubs; i++) {
+
+		if (this->currentDir->subs[i] != blockId) {
+
+			tempSubs[counter] = this->currentDir->subs[i];
+			counter++;
+
+		}
+
+	}
+	
+	//Update the new variables
+	this->currentDir->nrOfSubs--;
+	delete[] this->currentDir->subs;
+	this->currentDir->subs = tempSubs;
+
+}
+
+void TreeStructure::resetTree() {
+
+	Node* temp = nullptr;
+
+	while (this->currentDir != nullptr && this->currentDir->previousDir != nullptr) {
+
+		//Create temp for previous folder
+		temp = this->currentDir->previousDir;
+
+		//Delete subs for current
+		if (this->currentDir->subs != nullptr) {
+
+			delete[] this->currentDir->subs;
+
+		}
+
+		//Delete current
+		delete this->currentDir;
+
+		//Set current to temp
+		this->currentDir = temp;
+
+	}
+
+	//Deletes the root node
+	if (this->currentDir->subs != nullptr) {
+
+		delete[] this->currentDir->subs;
+		this->currentDir->subs = nullptr;
+
+	}
+
+}
+
 const int* TreeStructure::getCurrentSubs() const {
 
 	return this->currentDir->subs;
@@ -138,5 +169,35 @@ int TreeStructure::getNrOfCurrentSubs() const{
 int TreeStructure::getCurrentBlockId() const{
 
 	return this->currentDir->blockId;
+
+}
+
+void TreeStructure::setNrOfSubs(int nr) {
+
+	this->currentDir->nrOfSubs = nr;
+
+}
+
+int TreeStructure::getPreviousBlockId(int layers) {
+
+	int blockId = -1;
+	int counter = 0;
+
+	Node* temp = this->currentDir;
+
+	while (temp->previousDir != nullptr && counter != layers) {
+
+		temp = temp->previousDir;
+		counter++;
+
+	}
+
+	if (temp->previousDir != nullptr) {
+
+		blockId = temp->blockId;
+
+	}
+
+	return blockId;
 
 }

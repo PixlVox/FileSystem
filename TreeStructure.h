@@ -47,14 +47,19 @@ public:
 
 	int goToPreviousDir();
 	void goToNextDir(int index, int nrOfSubs, int* subs);
+	void removeSub(int blockId);
+	void resetTree();
 
 	//Set
 	void setNewSub(int blockId);
+	void setNrOfSubs(int nr);
 
 	//Get Functions
 	const int* getCurrentSubs() const;
 	int getNrOfCurrentSubs() const;
 	int getCurrentBlockId() const;
+	int getPreviousBlockId(int layers);
+
 };
 
 #endif // !TREESTRUCTURE_H

@@ -23,8 +23,10 @@ void changeFolder(FileSystem& fS, std::string userCommand);
 void createFolder(FileSystem& fS, std::string userCommand);
 void createFile(FileSystem& fS, std::string userCommand);
 void printFileContent(FileSystem& fS, std::string userCommand);
+void printWorkingDir(FileSystem& fS);
 void listDirectory(FileSystem& fS);
 void remove(FileSystem& fS, std::string userCommand);
+void createImage(FileSystem& fS, std::string userCommand);
 
 
 int main(void) {
@@ -66,6 +68,7 @@ int main(void) {
 				printFileContent(fS, userCommand);
                 break;
             case 5: // createImage
+				createImage(fS, userCommand);
                 break;
             case 6: // restoreImage
                 break;
@@ -85,6 +88,7 @@ int main(void) {
 				changeFolder(fS, userCommand);
 				break;
             case 13: // pwd
+				printWorkingDir(fS);
                 break;
             case 14: // help
                 std::cout << help() << std::endl;
@@ -208,12 +212,44 @@ int searchForInvalidChar(std::string filePath) {
 }
 
 void remove(FileSystem& fS, std::string userCommand) {
+
+	int removed = -1;
+
+	//Separates the filePath
 	std::string filePath = getFilePath(userCommand);
+	
+	//Check for invalid chars
+	removed = searchForInvalidChar(filePath);
 
-	int removed = fS.remove(filePath);
+	if (removed == -1) {
 
-	if (removed = 0) {
-		std::cout << "There is no file or directory with that name\n.";
+		//Gets input if it should search for a file or folder
+		int isFolder = -1;		//0 = File, 1 = Folder
+		std::cout << "Search for folder: 1 = Yes, 0 = No: ";
+		std::cin >> isFolder;
+		std::cin.ignore();
+
+		//Calls the remove function in the filesystem
+		removed = fS.remove(filePath, isFolder);
+
+	}
+
+	switch (removed) {
+
+	case 1:
+		std::cout << "The file " << filePath << " could not be found!\n";
+		break;
+	case 2:
+		std::cout << "The folder " << filePath << " could not be found!\n";
+		break;
+	case 3:
+		std::cout << "The filepath contains invalid chars!\n";
+		break;
+	case 4:
+		std::cout << "The filepath needs a name!\n";
+		break;
+	default:
+		break;
 	}
 
 }
@@ -345,3 +381,33 @@ void createFile(FileSystem& fS, std::string userCommand) {
 
 }
 
+void printWorkingDir(FileSystem& fS) {
+
+	std::string wDir = "";
+	wDir = fS.getWorkingDir();
+
+	std::cout << wDir << std::endl;
+
+}
+
+void createImage(FileSystem& fS, std::string userCommand) {
+
+	int result = -1;
+	std::string filePath = "";
+	filePath = getFilePath(userCommand);
+
+	fS.createImage(filePath);
+
+	if (result != -1) {
+
+		switch (result) {
+
+		case 1:
+			break;
+		default:
+			break;
+		}
+
+	}
+
+}
